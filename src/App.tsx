@@ -50,10 +50,10 @@ export default function App() {
       </header>
 
       {/* Main Content */}
-      <div className="flex flex-1 overflow-hidden flex-col md:flex-row">
+      <div className="flex flex-1 flex-col md:flex-row overflow-y-auto md:overflow-hidden">
         {/* Left Panel: Form */}
         <motion.div
-          className="no-print w-full md:w-[480px] md:min-w-[480px] overflow-y-auto border-r border-border"
+          className="no-print w-full md:w-[480px] md:min-w-[480px] md:overflow-y-auto border-r border-border"
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
@@ -73,7 +73,7 @@ export default function App() {
 
         {/* Right Panel: Preview */}
         <motion.div
-          className="flex-1 flex flex-col bg-muted-30"
+          className="flex-none md:flex-1 flex flex-col bg-muted-30"
           initial={{ x: 20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
