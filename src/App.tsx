@@ -50,15 +50,15 @@ export default function App() {
       </header>
 
       {/* Main Content */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden flex-col md:flex-row">
         {/* Left Panel: Form */}
         <motion.div
-          className="no-print w-[480px] min-w-[480px] overflow-y-auto border-r border-border"
+          className="no-print w-full md:w-[480px] md:min-w-[480px] overflow-y-auto border-r border-border"
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
-          <div className="px-6 py-5">
+          <div className="px-4 md:px-6 py-5">
             <InvoiceForm
               invoice={invoice}
               updateCompany={updateCompany}
@@ -73,20 +73,20 @@ export default function App() {
 
         {/* Right Panel: Preview */}
         <motion.div
-          className="flex-1 flex flex-col bg-muted/30"
+          className="flex-1 flex flex-col bg-muted-30"
           initial={{ x: 20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
         >
           {/* Preview Toolbar */}
-          <div className="no-print flex items-center justify-between px-6 py-3 border-b border-border shrink-0">
+          <div className="no-print flex items-center justify-between px-4 md:px-6 py-3 border-b border-border shrink-0">
             <div className="flex items-center gap-2">
               <div className="flex gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-red-500/80" />
-                <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
+                <span className="w-3 h-3 rounded-full bg-red-500-80" />
+                <span className="w-3 h-3 rounded-full bg-yellow-500-80" />
+                <span className="w-3 h-3 rounded-full bg-emerald-500-80" />
               </div>
-              <span className="text-xs text-muted-foreground ml-2">
+              <span className="text-xs text-muted-foreground ml-2 hidden sm:inline">
                 Aperçu — {invoice.invoiceNumber}
               </span>
             </div>
@@ -96,7 +96,7 @@ export default function App() {
           </div>
 
           {/* Preview Content */}
-          <div className="flex-1 overflow-y-auto p-8">
+          <div className="flex-1 overflow-y-auto p-4 md:p-8">
             <div className="max-w-[210mm] mx-auto">
               <InvoicePreview ref={previewRef} invoice={invoice} />
             </div>

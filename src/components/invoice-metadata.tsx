@@ -43,7 +43,7 @@ export function InvoiceMetadata({ data, onUpdate }: InvoiceMetadataProps) {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
               id="invoice-number"
               label="Numéro de facture"
@@ -58,7 +58,7 @@ export function InvoiceMetadata({ data, onUpdate }: InvoiceMetadataProps) {
               options={currencies}
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
               id="issue-date"
               label="Date d'émission"

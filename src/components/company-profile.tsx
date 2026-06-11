@@ -56,7 +56,7 @@ export function CompanyProfile({ data, onUpdate }: CompanyProfileProps) {
             value={data.logoUrl}
             onChange={(e) => handleChange("logoUrl", e.target.value)}
           />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
               id="company-email"
               label="Email"
@@ -84,7 +84,7 @@ export function CompanyProfile({ data, onUpdate }: CompanyProfileProps) {
             value={data.address}
             onChange={(e) => handleChange("address", e.target.value)}
           />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
               id="signatory-name"
               label="Nom du signataire"

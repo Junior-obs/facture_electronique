@@ -17,9 +17,6 @@ export function ExportButton({ previewRef, fileName }: ExportButtonProps) {
     setState("loading")
 
     try {
-      const html2canvas = (await import("html2canvas")).default
-      const { jsPDF } = await import("jspdf")
-
       const element = previewRef.current
       if (!element) {
         toast.error("Erreur", { description: "Aperçu non disponible" })
@@ -27,30 +24,40 @@ export function ExportButton({ previewRef, fileName }: ExportButtonProps) {
         return
       }
 
+      element.scrollIntoView({ behavior: "instant", block: "start" })
+      await new Promise((r) => setTimeout(r, 100))
+
+      const html2canvasModule = await import("html2canvas")
+      const html2canvas = html2canvasModule.default
+      const { jsPDF } = await import("jspdf")
+
       const canvas = await html2canvas(element, {
         scale: 2,
-        useCORS: true,
-        logging: false,
         backgroundColor: "#ffffff",
+        logging: false,
+        useCORS: false,
       })
 
       const imgData = canvas.toDataURL("image/png")
       const imgWidth = 210
       const imgHeight = (canvas.height * imgWidth) / canvas.width
-
-      const pdf = new jsPDF("p", "mm", "a4")
-      let heightLeft = imgHeight
-      let position = 0
       const pageHeight = 297
 
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight)
-      heightLeft -= pageHeight
+      const pdf = new jsPDF("p", "mm", "a4")
 
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight
-        pdf.addPage()
+      if (imgHeight <= pageHeight) {
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight)
+      } else {
+        let heightLeft = imgHeight
+        let position = 0
         pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight)
         heightLeft -= pageHeight
+        while (heightLeft > 0) {
+          position -= pageHeight
+          pdf.addPage()
+          pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight)
+          heightLeft -= pageHeight
+        }
       }
 
       pdf.save(`${fileName}.pdf`)
@@ -59,9 +66,11 @@ export function ExportButton({ previewRef, fileName }: ExportButtonProps) {
       toast.success("Facture exportée avec succès", {
         description: `Téléchargement de ${fileName}.pdf`,
       })
-    } catch {
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err)
+      console.error("PDF export error:", err)
       toast.error("Erreur d'export", {
-        description: "Impossible de générer le PDF",
+        description: message.length > 80 ? message.slice(0, 80) + "…" : message,
       })
       setState("idle")
       return

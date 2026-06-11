@@ -64,7 +64,8 @@ export function LineItems({ items, currency, onUpdate }: LineItemsProps) {
           </Button>
         </CardHeader>
         <CardContent className="space-y-0 p-0">
-          <div className="hidden sm:grid sm:grid-cols-[24px_140px_1fr_100px_120px_100px] gap-3 px-5 py-2 bg-muted/50 border-b border-border">
+          {/* Desktop header */}
+          <div className="hidden md:grid md:grid-cols-[24px_140px_1fr_100px_120px_100px] gap-3 px-5 py-2 bg-muted-50 border-b border-border">
             <div />
             <Label>Produit</Label>
             <Label>Description</Label>
@@ -81,53 +82,71 @@ export function LineItems({ items, currency, onUpdate }: LineItemsProps) {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.2 }}
-                className="grid grid-cols-1 sm:grid-cols-[24px_140px_1fr_100px_120px_100px] gap-2 sm:gap-3 px-5 py-3 border-b border-border last:border-b-0 items-center"
+                className="grid grid-cols-2 md:grid-cols-[24px_140px_1fr_100px_120px_100px] gap-2 md:gap-3 px-4 md:px-5 py-4 md:py-3 border-b border-border last:border-b-0 items-start md:items-center"
               >
-                <div className="hidden sm:flex text-muted-foreground">
+                <div className="hidden md:flex text-muted-foreground">
                   <GripVertical className="h-4 w-4" />
                 </div>
-                <Input
-                  placeholder="Site web"
-                  value={item.productName}
-                  onChange={(e) => updateItem(item.id, "productName", e.target.value)}
-                  className="h-8 text-sm"
-                />
-                <Input
-                  placeholder="Description"
-                  value={item.description}
-                  onChange={(e) => updateItem(item.id, "description", e.target.value)}
-                  className="h-8 text-sm"
-                />
-                <Input
-                  type="number"
-                  min="0"
-                  step="1"
-                  value={item.quantity || ""}
-                  onChange={(e) => updateItem(item.id, "quantity", e.target.value)}
-                  className="h-8 text-sm text-center"
-                />
-                <Input
-                  type="number"
-                  min="0"
-                  step="any"
-                  value={item.unitPrice}
-                  onChange={(e) => updateItem(item.id, "unitPrice", e.target.value)}
-                  className="h-8 text-sm text-right"
-                />
-                <div className="flex items-center justify-between sm:justify-end gap-2">
-                  <span className="text-sm font-medium tabular-nums">
-                    {currency}{" "}
-                    {(item.quantity * item.unitPrice).toLocaleString()}
-                  </span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => removeItem(item.id)}
-                    type="button"
-                    className="h-7 w-7 text-muted-foreground hover:text-destructive shrink-0"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </Button>
+                {/* Mobile: label + field pairs */}
+                <div className="col-span-2 md:col-span-1 grid grid-cols-1 gap-2 md:block">
+                  <Label className="md:hidden text-[10px]">Produit</Label>
+                  <Input
+                    placeholder="Site web"
+                    value={item.productName}
+                    onChange={(e) => updateItem(item.id, "productName", e.target.value)}
+                    className="h-8 text-sm"
+                  />
+                </div>
+                <div className="col-span-2 md:col-span-1 grid grid-cols-1 gap-2 md:block">
+                  <Label className="md:hidden text-[10px]">Description</Label>
+                  <Input
+                    placeholder="Description"
+                    value={item.description}
+                    onChange={(e) => updateItem(item.id, "description", e.target.value)}
+                    className="h-8 text-sm"
+                  />
+                </div>
+                <div className="grid grid-cols-1 gap-2 md:block">
+                  <Label className="md:hidden text-[10px]">Qté</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={item.quantity || ""}
+                    onChange={(e) => updateItem(item.id, "quantity", e.target.value)}
+                    className="h-8 text-sm text-center"
+                  />
+                </div>
+                <div className="grid grid-cols-1 gap-2 md:block">
+                  <Label className="md:hidden text-[10px]">Prix unit. ({currency})</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    step="any"
+                    value={item.unitPrice}
+                    onChange={(e) => updateItem(item.id, "unitPrice", e.target.value)}
+                    className="h-8 text-sm text-right"
+                  />
+                </div>
+                <div className="col-span-2 md:col-span-1">
+                  <div className="flex items-center justify-between md:justify-end gap-2">
+                    <div className="md:hidden">
+                      <Label className="text-[10px]">Total ({currency})</Label>
+                    </div>
+                    <span className="text-sm font-medium tabular-nums">
+                      {currency}{" "}
+                      {(item.quantity * item.unitPrice).toLocaleString()}
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeItem(item.id)}
+                      type="button"
+                      className="h-7 w-7 text-muted-foreground hover:text-destructive shrink-0"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </Button>
+                  </div>
                 </div>
               </motion.div>
             ))}

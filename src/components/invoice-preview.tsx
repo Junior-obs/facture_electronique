@@ -15,14 +15,14 @@ const TemplateStyles: Record<InvoiceTemplate, {
   borderClass: string
 }> = {
   modern: {
-    headerClass: "bg-primary/5 border-l-4 border-primary",
+    headerClass: "bg-primary-5 border-l-4 border-primary",
     accentClass: "text-primary",
     borderClass: "border-border",
   },
   classic: {
-    headerClass: "border-b-2 border-foreground/20",
+    headerClass: "border-b-2 border-foreground-20",
     accentClass: "text-foreground",
-    borderClass: "border-foreground/10",
+    borderClass: "border-foreground-10",
   },
   minimal: {
     headerClass: "",
@@ -37,7 +37,7 @@ const InvoicePreview = forwardRef<HTMLDivElement, InvoicePreviewProps>(
     const style = TemplateStyles[invoice.template]
 
     return (
-      <div ref={ref} className="bg-white text-black rounded-xl overflow-hidden shadow-lg">
+      <div ref={ref} className="bg-white text-black">
         <div className="p-8 space-y-6">
           {/* Status Badge */}
           <div className="flex justify-between items-start">
@@ -121,7 +121,8 @@ const InvoicePreview = forwardRef<HTMLDivElement, InvoicePreviewProps>(
           <Separator className="bg-gray-200" />
 
           {/* Line Items Table */}
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto -mx-1 px-1">
+          <table className="w-full text-sm min-w-[500px]">
             <thead>
               <tr className="border-b border-gray-200">
                 <th className="text-left py-2 text-gray-400 text-xs font-medium uppercase tracking-wide">Produit</th>
@@ -155,6 +156,7 @@ const InvoicePreview = forwardRef<HTMLDivElement, InvoicePreviewProps>(
               )}
             </tbody>
           </table>
+          </div>
 
           {/* Totals */}
           <div className="flex justify-end">
