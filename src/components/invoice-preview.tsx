@@ -1,5 +1,4 @@
 import { forwardRef } from "react"
-import { Badge } from "./ui/badge"
 import { Separator } from "./ui/separator"
 import { calculateTotals, formatCurrency } from "../lib/utils"
 import type { InvoiceState } from "../hooks/useInvoice"
@@ -39,24 +38,21 @@ const InvoicePreview = forwardRef<HTMLDivElement, InvoicePreviewProps>(
     return (
       <div ref={ref} className="bg-white text-black">
         <div className="p-8 space-y-6">
-          {/* Status Badge */}
-          <div className="flex justify-between items-start">
-            <div>
-              {invoice.company.name && (
-                <h1 className="text-xl font-bold text-gray-900">{invoice.company.name}</h1>
-              )}
-              {invoice.company.logoUrl && (
-                <img
-                  src={invoice.company.logoUrl}
-                  alt={invoice.company.name}
-                  className="h-10 mt-2 object-contain"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = "none"
-                  }}
-                />
-              )}
-            </div>
-            <Badge status={invoice.status} />
+          {/* Company Header */}
+          <div>
+            {invoice.company.name && (
+              <h1 className="text-xl font-bold text-gray-900">{invoice.company.name}</h1>
+            )}
+            {invoice.company.logoUrl && (
+              <img
+                src={invoice.company.logoUrl}
+                alt={invoice.company.name}
+                className="h-10 mt-2 object-contain"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none"
+                }}
+              />
+            )}
           </div>
 
           {/* Invoice Title */}

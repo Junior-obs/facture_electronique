@@ -39,27 +39,21 @@ export function ExportButton({ previewRef, fileName }: ExportButtonProps) {
       })
 
       const imgData = canvas.toDataURL("image/png")
-      const imgWidth = 210
-      const imgHeight = (canvas.height * imgWidth) / canvas.width
+      const pageWidth = 210
       const pageHeight = 297
+      const margin = 8
 
       const pdf = new jsPDF("p", "mm", "a4")
 
-      if (imgHeight <= pageHeight) {
-        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight)
-      } else {
-        let heightLeft = imgHeight
-        let position = 0
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight)
-        heightLeft -= pageHeight
-        while (heightLeft > 0) {
-          position -= pageHeight
-          pdf.addPage()
-          pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight)
-          heightLeft -= pageHeight
-        }
-      }
+      const maxWidth = pageWidth - margin * 2
+      const maxHeight = pageHeight - margin * 2
+      const ratio = Math.min(maxWidth / canvas.width, maxHeight / canvas.height)
+      const imgWidth = canvas.width * ratio
+      const imgHeight = canvas.height * ratio
+      const x = (pageWidth - imgWidth) / 2
+      const y = margin
 
+      pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight)
       pdf.save(`${fileName}.pdf`)
 
       setState("success")
